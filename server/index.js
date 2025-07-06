@@ -4,34 +4,27 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 
 dotenv.config();
-const app = express();
+const app = express(); // ✅ Initialize app before use()
 
-// ✅ Clean CORS config
-app.use(cors({
-  origin: 'https://docusi.netlify.app', // ✅ Only the final deployed Netlify domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
-
-// ✅ Body parser and static files
+// Middleware
+app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static('uploads')); // Serve PDF files
 
-// ✅ Routes
+// Routes
 const protectedRoutes = require('./routes/protected');
 const authRoutes = require('./routes/auth');
-const docsRoutes = require('./routes/docs');
+const docsRoutes = require('./routes/docs'); // ✅ Move this after app init
 
 app.use('/api', protectedRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/docs', docsRoutes);
+app.use('/api/docs', docsRoutes); // ✅ Safe to use now
 
-// ✅ MongoDB connection
+// MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// ✅ Start server
+// Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

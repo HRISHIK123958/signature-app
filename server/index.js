@@ -16,7 +16,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
-
+app.options('*', cors());
 // ✅ Step 3: Body parser and static files
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://signature-app-h7lz.onrender.com/api',
+  baseURL: 'https://signature-app-h7lz.onrender.com/',
 });
 
 export const register = (data) => API.post('/auth/register', data);

@@ -1,50 +1,35 @@
-// server/index.js
-
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const path = require('path');
 
 dotenv.config();
-
 const app = express();
 
-// ✅ CORS config to allow Netlify frontend
-app.use(
-  cors({
-    origin: [
-      'https://docusi.netlify.app', // your Netlify custom domain (if added)
-      'https://686a4e23adb0e68f3cd412e9--docusi.netlify.app', // Netlify preview URL
-    ],
-    credentials: true,
-  })
-);
+// ✅ Use proper CORS setup before any routes
+app.use(cors({
+  origin: ['https://docusi.netlify.app', 'https://686a5705f7db23db98135bae--docusi.netlify.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
-// ✅ Middleware
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
 
 // ✅ Routes
+const protectedRoutes = require('./routes/protected');
 const authRoutes = require('./routes/auth');
 const docsRoutes = require('./routes/docs');
-const protectedRoutes = require('./routes/protected');
 
+app.use('/api', protectedRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/docs', docsRoutes);
-app.use('/api', protectedRoutes);
 
 // ✅ MongoDB connection
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

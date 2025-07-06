@@ -129,7 +129,7 @@ export default function Dashboard({ auth, setAuth }) {
                             {doc.signedBy?.name || 'Unknown'}
                           </p>
                           <a
-                            href={`https://signature-app-h7lz.onrender.com/api/uploads/${doc.filename}`}
+                            href={`https://signature-app-h7lz.onrender.com/uploads/${doc.filename}`}
                             download
                             className="text-sm mt-1 inline-block text-blue-600 underline hover:text-blue-800"
                           >
@@ -152,7 +152,7 @@ export default function Dashboard({ auth, setAuth }) {
                     </div>
 
                     <iframe
-                      src={`http://localhost:5000/uploads/${doc.filename}`}
+                      src={`https://signature-app-h7lz.onrender.com/uploads/${doc.filename}`}
                       title="PDF Preview"
                       className="w-full md:w-64 h-52 mt-4 md:mt-0 border rounded-xl shadow-md"
                     />

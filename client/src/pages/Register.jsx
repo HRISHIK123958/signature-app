@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { register } from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Register() {
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
-    role: 'User' // Default role
+    role: 'User'
   });
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,23 +21,35 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
       await register(form);
-      navigate('/login');
+      toast.success('🎉 Registration successful! Redirecting to login...', {
+        position: 'top-center',
+        autoClose: 2000,
+      });
+      setTimeout(() => navigate('/login'), 2500);
     } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.error || 'Registration failed');
+      setError(err.response?.data?.error || 'Registration failed');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-md rounded-2xl p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Create an Account</h2>
+    <div className="min-h-screen bg-gradient-to-tr from-purple-100 via-pink-100 to-yellow-100 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md"
+      >
+        <ToastContainer />
+        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6">
+          🎉 Create an Account
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-600">Name</label>
+            <label htmlFor="name" className="block text-sm text-gray-700 font-medium mb-1">Name</label>
             <input
               id="name"
               name="name"
@@ -41,12 +57,12 @@ export default function Register() {
               placeholder="Your Name"
               onChange={handleChange}
               required
-              className="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-600">Email</label>
+            <label htmlFor="email" className="block text-sm text-gray-700 font-medium mb-1">Email</label>
             <input
               id="email"
               name="email"
@@ -54,12 +70,12 @@ export default function Register() {
               placeholder="you@example.com"
               onChange={handleChange}
               required
-              className="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-600">Password</label>
+            <label htmlFor="password" className="block text-sm text-gray-700 font-medium mb-1">Password</label>
             <input
               id="password"
               name="password"
@@ -67,18 +83,18 @@ export default function Register() {
               placeholder="••••••••"
               onChange={handleChange}
               required
-              className="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition"
             />
           </div>
 
           <div>
-            <label htmlFor="role" className="block mb-1 text-sm font-medium text-gray-600">Role</label>
+            <label htmlFor="role" className="block text-sm text-gray-700 font-medium mb-1">Role</label>
             <select
               id="role"
               name="role"
               onChange={handleChange}
               value={form.role}
-              className="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition"
             >
               <option value="User">User</option>
               <option value="Admin">Admin</option>
@@ -87,19 +103,29 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition"
+            className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold py-3 rounded-lg shadow-md hover:brightness-110 transition"
           >
-            Register
+            ✍️ Register
           </button>
 
-          <p className="text-sm text-center text-gray-500 mt-4">
+          {error && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-sm text-center text-red-500"
+            >
+              {error}
+            </motion.p>
+          )}
+
+          <p className="text-sm text-center text-gray-600 mt-4">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 hover:underline">
+            <Link to="/login" className="text-indigo-600 hover:underline font-medium">
               Login here
             </Link>
           </p>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 }

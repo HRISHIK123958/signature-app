@@ -129,7 +129,7 @@ export default function Dashboard({ auth, setAuth }) {
                             {doc.signedBy?.name || 'Unknown'}
                           </p>
                           <a
-                            href={`https://signature-app-h7lz.onrender.com/uploads/${doc.filename}`}
+                            href={`https://signature-app-h7lz.onrender.com/api/uploads/${doc.filename}`}
                             download
                             className="text-sm mt-1 inline-block text-blue-600 underline hover:text-blue-800"
                           >

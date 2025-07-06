@@ -1,101 +1,134 @@
-📄 DocuSign Clone – Digital Document Signing App (MERN Stack)
-This project is a lightweight DocuSign clone built using the MERN stack (MongoDB, Express.js, React, Node.js) that allows users to upload PDF documents, preview them, and digitally sign using a role-based permission system.
+# 🖋️ Digital Document Signature App
 
-✅ Features
-User Authentication (Register/Login with JWT)
+A full-stack MERN (MongoDB, Express, React, Node.js) web application to securely upload, preview, and digitally sign PDF documents. Built with user-role based access control for Admin and User. Inspired by DocuSign-like functionality.
 
-Role-Based Access Control
+---
 
-Admin: Can upload, view, and sign documents
+## 🔧 Tech Stack
 
-User: Can upload and view their own documents
+* **Frontend**: React, Tailwind CSS, Framer Motion, Axios, React Toastify
+* **Backend**: Node.js, Express.js
+* **Database**: MongoDB (with Mongoose)
+* **PDF Handling**: `pdf-lib`
+* **File Upload**: `multer`
+* **Authentication**: JWT
 
-Upload PDF Documents
+---
 
-Live PDF Preview using <iframe>
+## 👤 Roles
 
-Sign PDFs using PDF-lib
+### 👨‍💼 Admin:
 
-Adds text and image-based digital signature
+* Upload PDFs
+* View all documents
+* Sign documents with signature image and timestamp
+* Download signed PDFs
 
-Signature Metadata
+### 🙍‍♂️ User:
 
-Stores signer name, timestamp, and file
+* Upload and view only their own documents
+* Cannot sign documents
 
-Download Signed PDFs
+---
 
-Filter Options: View All / Signed / Unsigned
+## ✨ Features
 
-Modern UI with TailwindCSS + Framer Motion
+* 🔐 **Register/Login** with role-based access
+* 🗃️ **Dashboard** with document filters (All, Signed, Unsigned)
+* 📤 **Upload** PDF files (Multer + FormData)
+* 🖊️ **Sign PDF** (Only Admin): adds signature image + text
+* 📥 **Download** signed PDF
+* 🎨 **Modern UI**: Animated with Framer Motion
+* ✅ **Success Toasts** & Loaders
+* 🔎 Inline **PDF Preview** using `<iframe>`
 
-🛠️ Tech Stack
-Frontend: React, Tailwind CSS, Framer Motion, Axios
+---
 
-Backend: Node.js, Express.js
+## 📁 Folder Structure
 
-Database: MongoDB with Mongoose
+```
+server/
+├── models/          # Mongoose models (User, Document)
+├── middlewares/     # Auth, Role Check, Upload config
+├── routes/          # Auth and Docs APIs
+├── uploads/         # Uploaded and signed PDF storage
+├── assets/          # Signature image (signature.jpg)
+└── index.js         # Entry point
 
-PDF Processing: pdf-lib (Draw signature image/text)
+client/
+├── src/pages/       # React pages: Login, Register, Upload, Dashboard
+├── src/services/    # API logic (axios)
+└── App.jsx, index.js
+```
 
-Authentication: JWT
+---
 
-File Upload: Multer
+## 🚀 Getting Started
 
-Role Check: Custom middleware
+### 1. Clone the repository
 
-📁 Folder Structure
-bash
-Copy
-Edit
-signature-app/
-├── client/             # React frontend
-├── server/             # Node.js + Express backend
-│   ├── routes/         # API endpoints
-│   ├── models/         # Mongoose models
-│   ├── middlewares/    # Auth and role middleware
-│   ├── uploads/        # Signed + uploaded PDFs
-│   └── assets/         # Signature images
-🚀 Getting Started
-bash
-Copy
-Edit
-# Clone the repo
-git clone https://github.com/yourusername/signature-app
+```bash
+git clone https://github.com/HRISHIK123958/signature-app.git
+cd signature-app
+```
 
-# Backend setup
-cd signature-app/server
+### 2. Install server dependencies
+
+```bash
+cd server
 npm install
-touch .env
-# Add your MongoDB URI and JWT secret in .env
-node index.js
+```
 
-# Frontend setup
+### 3. Install client dependencies
+
+```bash
 cd ../client
 npm install
+```
+
+### 4. Create `.env` in `/server`
+
+```
+MONGO_URI=your_mongo_db_url
+JWT_SECRET=your_secret_key
+```
+
+### 5. Start the app
+
+```bash
+# Start backend
+cd server
+node index.js
+
+# Start frontend (in new terminal)
+cd client
 npm start
-🌐 Demo Credentials (for testing)
-pgsql
-Copy
-Edit
-Admin Email: admin@example.com
-Password:    admin123
+```
 
-User Email:  user@example.com
-Password:    user123
-📸 Screenshots
-✅ Login & Register
+---
 
-📁 Dashboard with preview + filters
+## 📸 Screenshots
 
-🖊️ Admin signing interface
+* 📋 Register/Login Page
+* 📄 Document Upload Form
+* 📑 Admin Dashboard with PDF Preview
+* ✅ Signed Status and Download Link
 
-📥 Download signed PDFs
+---
 
-📌 Future Enhancements
-Drag & drop signature placement
+## 📌 Future Enhancements
 
-Email notifications
+* 🖊️ Drag-and-drop signature placement
+* ☁️ Cloud storage (e.g. AWS S3, Firebase)
+* 📩 Email notifications on signature
+* 🧾 Version history & audit trail
 
-Multi-signer support
+---
 
-Cloud storage (e.g., AWS S3)
+## 📃 License
+
+This project is licensed under the MIT License.
+
+---
+
+> Designed & Developed by [Hrishik Dey](https://github.com/HRISHIK123958)

@@ -4,19 +4,24 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 
 dotenv.config();
-const app = express();
+const app = express(); // ✅ Step 1: Initialize app
 
-// ✅ Use proper CORS setup before any routes
+// ✅ Step 2: Add CORS middleware BEFORE routes
 app.use(cors({
-  origin: ['https://docusi.netlify.app', 'https://686a5705f7db23db98135bae--docusi.netlify.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: [
+    'https://docusi.netlify.app',
+    'https://686a58b1deea217cb5beb051--docusi.netlify.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 
+// ✅ Step 3: Body parser and static files
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
-// ✅ Routes
+// ✅ Step 4: Routes
 const protectedRoutes = require('./routes/protected');
 const authRoutes = require('./routes/auth');
 const docsRoutes = require('./routes/docs');
@@ -25,11 +30,11 @@ app.use('/api', protectedRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/docs', docsRoutes);
 
-// ✅ MongoDB connection
+// ✅ Step 5: Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// ✅ Start server
+// ✅ Step 6: Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

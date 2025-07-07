@@ -9,7 +9,8 @@ const app = express(); // ✅ Initialize app before use()
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); // Serve PDF files
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 const protectedRoutes = require('./routes/protected');
